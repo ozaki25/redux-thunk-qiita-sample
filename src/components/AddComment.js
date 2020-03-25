@@ -1,6 +1,6 @@
 import React from 'react';
 
-function QiitaComments() {
+function AddComment() {
   return (
     <div>
       <h1>Hello</h1>
@@ -8,4 +8,4 @@ function QiitaComments() {
   );
 }
 
-export default QiitaComments;
+export default AddComment;
