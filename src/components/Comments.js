@@ -7,9 +7,8 @@ import {
   fetchComments,
 } from '../store/commentSlice';
 
-function Comments() {
+function useComments() {
   const dispatch = useDispatch();
-
   const loading = useSelector(selectLoading);
   const error = useSelector(selectError);
   const comments = useSelector(selectComments);
@@ -18,9 +17,13 @@ function Comments() {
     dispatch(fetchComments());
   }, [dispatch]);
 
+  return { loading, error, comments };
+}
+
+function Comments() {
+  const { loading, error, comments } = useComments();
   if (loading) return <p>...loading</p>;
   if (error) return <p>{error}</p>;
-
   return (
     <div>
       <h1>Comments</h1>
