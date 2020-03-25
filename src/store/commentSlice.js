@@ -12,10 +12,10 @@ export const commentsSlice = createSlice({
   },
   reducers: {
     changeText(state, action) {
-      state.inputText = action.payload.inputText;
+      state.inputText = action.payload;
     },
     setComments(state, action) {
-      state.comments = action.payload.comments;
+      state.comments = action.payload;
     },
     setLoading(state, action) {
       state.loading = action.payload;
@@ -34,11 +34,11 @@ export const {
   setComments,
 } = commentsSlice.actions;
 
-export const addComment = comment => async dispatch => {
+export const fetchComments = () => async dispatch => {
   dispatch(setError(null));
   dispatch(setLoading(true));
   try {
-    await postComment({ comment });
+    dispatch(setComments(await getComments()));
   } catch (error) {
     console.log({ error });
     dispatch(setError(error.stack));
@@ -47,11 +47,13 @@ export const addComment = comment => async dispatch => {
   }
 };
 
-export const fetchComments = () => async dispatch => {
+export const addComment = comment => async dispatch => {
   dispatch(setError(null));
   dispatch(setLoading(true));
   try {
-    dispatch(setComments({ comments: await getComments() }));
+    console.log({ comment });
+    await postComment({ comment });
+    dispatch(fetchComments());
   } catch (error) {
     console.log({ error });
     dispatch(setError(error.stack));
