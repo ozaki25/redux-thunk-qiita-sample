@@ -18,20 +18,20 @@ export const commentsSlice = createSlice({
       state.comments = action.payload.comments;
     },
     setLoading(state, action) {
-      state.loading = action.payload.loading;
+      state.loading = action.payload;
     },
     setError(state, action) {
-      state.error = action.payload.error;
+      state.error = action.payload;
     },
   },
 });
 
 // Actions
 export const {
-  changeText,
-  setComments,
   setLoading,
   setError,
+  changeText,
+  setComments,
 } = commentsSlice.actions;
 
 export const addComment = comment => async dispatch => {
@@ -40,7 +40,8 @@ export const addComment = comment => async dispatch => {
   try {
     await postComment({ comment });
   } catch (error) {
-    dispatch(setError(error));
+    console.log({ error });
+    dispatch(setError(error.stack));
   } finally {
     dispatch(setLoading(false));
   }
@@ -50,11 +51,10 @@ export const fetchComments = () => async dispatch => {
   dispatch(setError(null));
   dispatch(setLoading(true));
   try {
-    const { comments } = await getComments();
-    console.log({ comments });
-    dispatch(setComments({ comments }));
+    dispatch(setComments({ comments: await getComments() }));
   } catch (error) {
-    dispatch(setError(error));
+    console.log({ error });
+    dispatch(setError(error.stack));
   } finally {
     dispatch(setLoading(false));
   }
