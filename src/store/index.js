@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import commentReducer from './commentSlice';
+import qiitaCommentReducer from './qiitaCommentsSlice';
 
 export const store = configureStore({
   reducer: {
-    comments: commentReducer,
+    comments: qiitaCommentReducer,
   },
 });
