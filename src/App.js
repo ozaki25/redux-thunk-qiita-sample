@@ -1,16 +1,19 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { store } from './store';
 import AddComment from './components/AddComment';
 import Comments from './components/Comments';
+import { selectFetchState } from './store/qiitaCommentsSlice';
 
 function App() {
+  const { loading, error } = useSelector(selectFetchState);
   return (
-    <Provider store={store}>
+    <div>
+      {loading && <p>...loading</p>}
+      {error && <p>{error}</p>}
       <AddComment />
       <Comments />
-    </Provider>
+    </div>
   );
 }
 
