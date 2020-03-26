@@ -1,27 +1,20 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  selectLoading,
-  selectError,
+  selectFetchState,
   selectComments,
   fetchComments,
-} from '../store/commentSlice';
+} from '../store/qiitaCommentsSlice';
 
-function useComments() {
+function Comments() {
   const dispatch = useDispatch();
-  const loading = useSelector(selectLoading);
-  const error = useSelector(selectError);
+  const { loading, error } = useSelector(selectFetchState);
   const comments = useSelector(selectComments);
 
   useEffect(() => {
     dispatch(fetchComments());
   }, [dispatch]);
 
-  return { loading, error, comments };
-}
-
-function Comments() {
-  const { loading, error, comments } = useComments();
   if (loading) return <p>...loading</p>;
   if (error) return <p>{error}</p>;
   return (
